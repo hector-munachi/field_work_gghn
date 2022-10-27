@@ -17,6 +17,7 @@ import Signup from './pages/signup/Signup'
 import Project from './pages/project/Project'
 import Navbar from './components/Navbar'
 import Sidebar from './components/Sidebar'
+import LiveLocation from './pages/location/LiveLocation';
 
 
 const { Content, Footer } = Layout;
@@ -53,6 +54,10 @@ function App() {
               <Route path="/location">
                 {!user && <Redirect to="/login" />}
                 {user && <Location />}
+              </Route>
+              <Route path="/live-location/:id">
+                {!user && <Redirect to="/login" />}
+                {user && <LiveLocation />}
               </Route>
               <Route path="/projects/:id">
                 {!user && <Redirect to="/login" />}
