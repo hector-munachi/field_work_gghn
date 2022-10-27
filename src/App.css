@@ -1,0 +1,11 @@
+* {
+  font-family: 'Work Sans', sans-serif;
+}
+
+.App {
+  display: flex;
+}
+.App .container{
+  flex-grow: 1;
+  padding: 0 60px;
+}
