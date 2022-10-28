@@ -10,3 +10,13 @@ export const createLocation = async(payload)=>{
         return {status: false, error};
     }
 }
+
+export const updateLocation = async (payload, id)=>{
+    try{
+        const colRef = projectFirestore.doc(Constant.COLLECTION.LOCATION, id);
+        await colRef.update({...payload})
+        return {status: true};
+    }catch(error){
+        return {status: false, error};
+    }
+}
