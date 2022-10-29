@@ -3,9 +3,10 @@ import { useParams } from "react-router-dom"
 import Constant from '../../const/defination';
 import { useDocument } from '../../hooks/useDocument';
 import { useGeolocated } from "react-geolocated";
-import { GoogleMap, withScriptjs, withGoogleMap, Marker } from "react-google-maps"
+import { GoogleMap, withScriptjs, withGoogleMap, Marker, DirectionsRenderer } from "react-google-maps"
 import { Button } from 'antd';
 import { updateLocation } from '../../function';
+// import LazyfoxMapDirection from "lazyfox-map-direction"
 
 export default function LiveLocation() {
     const {id} = useParams()
@@ -49,18 +50,38 @@ export default function LiveLocation() {
         setAddButtonText("CAPTURE CURRENT LOCATION")
     }
 
+    // const 
+
     const MyMapComponent = withScriptjs(withGoogleMap((props) =>
-        <GoogleMap
-            defaultZoom={8}
-            defaultCenter={ ((props.markersList || []).length > 0) ? {lat: (props.markersList)[0].latitude, lng: (props.markersList)[0].longitude} : { lat: -34.397, lng: 150.644 }}
-        >
-            {props.isMarkerShown && (
-                props.markersList.map(_item => {
-                    return (<Marker position={{ lat: _item.latitude, lng: _item.longitude }} />)
-                })
-                
-            )}
-        </GoogleMap>
+        {
+            // const directionsService = new google.maps.DirectionsService();
+            return (
+            <GoogleMap
+                defaultZoom={12}
+                defaultCenter={ ((props.markersList || []).length > 0) ? {lat: (props.markersList)[0].latitude, lng: (props.markersList)[0].longitude} : { lat: -34.397, lng: 150.644 }}
+            >
+                {props.isMarkerShown && (
+                    props.markersList.map((_item, index) => {
+                        return (<Marker noRedraw label={`${index + 1}`} position={{ lat: _item.latitude, lng: _item.longitude }} />)
+                    })
+                    
+                )}
+
+                {/* <DirectionsRenderer directions={} /> */}
+
+                {/* {
+                    (((props.markersList || []).length > 0) && (
+                        <LazyfoxMapDirection 
+                            apiKey={Constant.CONFIG.API_KEY.GOOGLE_API} // google maps api 
+                            wayPoint = {props.markersList}  // array
+                            wayPointLimit = {10} // optional
+                            renderLine={(coordinates)=>(
+                            <Polyline coordinates = {coordinates} />
+                            )} 
+                        />
+                    ))
+                } */}
+            </GoogleMap>)}
     ))
 
     return (
@@ -75,7 +96,12 @@ export default function LiveLocation() {
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
                         <p>{_doc.document?.locationDesc}</p>
-                        <Button onClick={()=> addToLocation()} type='primary' disabled={ (_doc.document?.locationStatus !== "pending") } >{addButtonText}</Button>
+                        <Button onClick={()=> {
+                            // addToLocation()
+                            if( window.confirm("Are you sure you want to capture this location") ){
+                                addToLocation()
+                            }
+                        }} type='primary' disabled={ (_doc.document?.locationStatus !== "pending") } >{addButtonText}</Button>
                     </div>
 
                     {/* map component */}
@@ -83,7 +109,7 @@ export default function LiveLocation() {
                     <MyMapComponent
                         isMarkerShown
                         markersList={_doc.document?.locationCoordinates || []}
-                        googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyCpGZZEKIrg51H_McZNKQJ5h35jbDOppZc&v=3.exp&libraries=geometry,drawing,places"
+                        googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${Constant.CONFIG.API_KEY.GOOGLE_API}&v=3.exp&libraries=geometry,drawing,places`}
                         loadingElement={<div style={{ height: `100%` }} />}
                         containerElement={<div style={{ height: `400px` }} />}
                         mapElement={<div style={{ height: `100%` }} />}
