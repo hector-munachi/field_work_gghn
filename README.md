@@ -1,4 +1,4 @@
-# Paginated Frontend 2
+# GGHN FieldWork
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/e2622a917bbc4134bb25520c587bd031)](https://www.codacy.com/gh/hector-munachi/paginate_frontend_2/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=hector-munachi/paginate_frontend_2&amp;utm_campaign=Badge_Grade)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/c1714c90-a555-41c7-bfa9-24c8230281ff/deploy-status)](https://app.netlify.com/sites/hector-talentql-pipline-2/deploys)
